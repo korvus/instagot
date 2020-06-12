@@ -1,0 +1,27 @@
+{
+  "name": "instagot",
+  "version": "1.0.0",
+  "description": "just a bot using instagram-private-api nodejs with very specific proper use",
+  "main": "index.js",
+  "scripts": {
+    "followers": "node getListFollowers.js",
+    "like": "node likeByTags.js"
+  },
+  "keywords": [
+    "instagram",
+    "bot",
+    "api",
+    "user",
+    "following"
+  ],
+  "author": "simon ertel",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "inquirer": "^7.1.0",
+    "instagram-private-api": "^1.40.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0"
+  }
+}
