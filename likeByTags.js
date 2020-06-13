@@ -16,11 +16,11 @@ function fakeLoad() {
     return '';
 }
   
-function askIf () {
+function askIf (tags) {
   inquirer.prompt(question)
   .then(answers => {
     var hashtag = answers.hashtag.split('/');
-    likeEach(hashtag);
+    likeEach(hashtag, tags);
   })
   .catch(e => {
     console.log(e);
@@ -40,15 +40,12 @@ const question = [
     }
 ]
 
-let tags = fs.readFileSync('lastTags.txt', 'utf8');
-tags = tags.split(",");
-
 
 const sleep = ms => {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
     
-const getTagByUnit = iteration => {
+const getTagByUnit = (tags, iteration) => {
     return sleep(1000).then(v => tags[iteration])
 }
 
@@ -88,14 +85,12 @@ const doMain = async () => {
     console.log("Current hashtags of your last post are:");
     console.log(hashtags);
 
-    askIf();
-    // tags = tags.concat(hashtag);
-
+    askIf(hashtags);
     // control();
 
 }
 
-const likeEach = async (hashtag) => {
+const likeEach = async (hashtag, tags) => {
   
   const ig = new IgApiClient();
   ig.state.generateDevice(conf.parsed.ACCOUNT_LOGIN);
@@ -111,14 +106,13 @@ const likeEach = async (hashtag) => {
   // This call will provoke request.end$ stream
   const simonTshirt = await ig.account.login(conf.parsed.ACCOUNT_LOGIN, conf.parsed.ACCOUNT_PASSWORD);
 
-
   tags = tags.concat(hashtag);
-  
+
     const control = async _ => {
         console.log('--')
 
         for (let index = 0; index < tags.length; index++) {
-            const tag = await getTagByUnit(index);
+            const tag = await getTagByUnit(tags, index);
             var tagFeed = ig.feed.tags(tag, "recent");
             var lastPostsOnHT = await tagFeed.items().catch(e => console.error(e));
 
