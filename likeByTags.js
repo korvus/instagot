@@ -19,8 +19,12 @@ function fakeLoad() {
 function askIf (tags) {
   inquirer.prompt(question)
   .then(answers => {
-    var hashtag = answers.hashtag.split('/');
-    likeEach(hashtag, tags);
+    if(answers.hashtag){
+      var hashtag = answers.hashtag.split('/');
+      likeEach(hashtag, tags);
+    } else {
+      likeEach(null, tags);
+    }
   })
   .catch(e => {
     console.log(e);
@@ -106,7 +110,7 @@ const likeEach = async (hashtag, tags) => {
   // This call will provoke request.end$ stream
   const simonTshirt = await ig.account.login(conf.parsed.ACCOUNT_LOGIN, conf.parsed.ACCOUNT_PASSWORD);
 
-  tags = tags.concat(hashtag);
+  tags = hashtag ? tags.concat(hashtag) : tags
 
     const control = async _ => {
         console.log('--')
@@ -130,7 +134,8 @@ const likeEach = async (hashtag, tags) => {
         console.log('--')
     }
 
-    control();
+  control();
+
 
 }
 
