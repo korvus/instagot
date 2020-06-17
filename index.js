@@ -11,7 +11,7 @@ inquirer
   }
 ])
 .then(answers => {
-  if(answers.Instagrammeur === "aknodledge"){
+  if(answers.Instagrammeur === "aknowledge"){
     console.log("----------");
     console.log("type the command 'node getListFollowers.js'");
     console.log("----------");
