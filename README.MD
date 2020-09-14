@@ -6,7 +6,7 @@ I made it as an exercise for my [Instagram Tshirt shop](https://www.instagram.co
 Here the tasks wich are executed, and quite asked by most of Instagramers I guess:
 - A script for compare your followers and the user you follow (following).
 IT will throw directly the difference (people you follow but they don't follow you) and opposite (people following you and you don't follow);
-- A script to automatically like most recent post in specitic tags category. In fact, the tags are extracted from the text content from your last post on your account. 
+- A script to automatically like most recent post in specitic tags category. In fact, the tags are extracted from the text content from your last post on your account.
 
 You must have some basics devlopment requirements if you want to use it:
 - having node on your computer
@@ -32,11 +32,8 @@ ACCOUNT_PASSWORD=secretPass123
 ### Use
 Once settings done, you just have to go to this depository and run:
 ```
-node getListFollowers.js
+node index
 ```
-OR if you want to automatically like by tags :
-```
-node likeByTags.js
-```
+Then, just follow the questions!
 
 Feel free to improve it or customise it all the way you want ;)

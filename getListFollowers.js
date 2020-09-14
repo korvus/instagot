@@ -16,7 +16,7 @@ function fakeLoad() {
   return '';
 }
 
-(async () => {
+const sortFollowers = async () => {
   const ig = new IgApiClient();
   ig.state.generateDevice(conf.parsed.ACCOUNT_LOGIN);
   // This function executes after every request
@@ -68,6 +68,6 @@ function fakeLoad() {
       }
     });
 
-})().catch(e => console.error(e));
+};
 
-
+module.exports.sortFollowers = sortFollowers;

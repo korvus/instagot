@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
-
+const { doMain } = require('./likeByTags.js');
+const { sortFollowers } = require('./getListFollowers.js');
 
 inquirer
 .prompt([
@@ -12,12 +13,8 @@ inquirer
 ])
 .then(answers => {
   if(answers.Instagrammeur === "aknowledge"){
-    console.log("----------");
-    console.log("type the command 'node getListFollowers.js'");
-    console.log("----------");
+    sortFollowers();
   }else{
-    console.log("----------");
-    console.log("type the command 'node likeByTags.js'");
-    console.log("----------");
+    doMain();
   }
 });

@@ -23,11 +23,11 @@ function askIf (tags) {
       var hashtag = answers.hashtag.split('/');
       likeEach(hashtag, tags);
     } else {
-      likeEach(null, tags);
+      likeEach([], tags);
     }
   })
   .catch(e => {
-    console.log(e);
+    console.log("Error happened in askIf question, insite likeByTags script : ", e);
   })
 }
 
@@ -50,7 +50,7 @@ const sleep = ms => {
 }
     
 const getTagByUnit = (tags, iteration) => {
-    return sleep(1000).then(v => tags[iteration])
+    return sleep(1000).then(() => tags[iteration]).catch(err => console.error("Promise failed at getTagByUnit function inside likeByTags.js file : ", err));
 }
 
 
@@ -66,7 +66,6 @@ function extractHashtags(caption) {
 }
 
 const doMain = async () => {
- 
   const ig = new IgApiClient();
   ig.state.generateDevice(conf.parsed.ACCOUNT_LOGIN);
   // This function executes after every request
@@ -91,11 +90,10 @@ const doMain = async () => {
 
     askIf(hashtags);
     // control();
-
 }
 
 const likeEach = async (hashtag, tags) => {
-  
+
   const ig = new IgApiClient();
   ig.state.generateDevice(conf.parsed.ACCOUNT_LOGIN);
   // This function executes after every request
@@ -117,18 +115,25 @@ const likeEach = async (hashtag, tags) => {
 
         for (let index = 0; index < tags.length; index++) {
             const tag = await getTagByUnit(tags, index);
-            var tagFeed = ig.feed.tags(tag, "recent");
-            var lastPostsOnHT = await tagFeed.items().catch(e => console.error(e));
+            const tagFeed = ig.feed.tags(tag, "recent");
+            let valid = true;
+            const lastPostsOnHT = await tagFeed.items().catch(() => {valid = false;});
+            if(!lastPostsOnHT.length) valid = false;
 
-            await ig.media.like({
-                mediaId: lastPostsOnHT[1].id,
-                moduleInfo: {
-                  module_name: 'profile',
-                  user_id: simonTshirt.pk,
-                  username: simonTshirt.username,
-                }
-            }).catch(e => console.error(e));
-            console.log("- most recent post from #"+tag+" liked.")
+            if(valid === true){
+              await ig.media.like({
+                  mediaId: lastPostsOnHT[1].id,
+                  moduleInfo: {
+                    module_name: 'profile',
+                    user_id: simonTshirt.pk,
+                    username: simonTshirt.username,
+                  }
+              }).catch(e => console.error(e));
+              console.log("- most recent post from #"+tag+" liked.");
+            } else {
+              console.error("- most recent post from #"+tag+" not liked because error in getting the last posts.");
+            }
+
         }
         
         console.log('--')
@@ -139,5 +144,4 @@ const likeEach = async (hashtag, tags) => {
 
 }
 
-doMain();
-
+module.exports.doMain = doMain;
