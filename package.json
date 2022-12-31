@@ -19,7 +19,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "inquirer": "^7.1.0",
-    "instagram-private-api": "^1.40.1"
+    "instagram-private-api": "^1.45.3"
   },
   "devDependencies": {
     "eslint": "^7.2.0"
